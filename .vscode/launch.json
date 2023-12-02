@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Advent of Go",
+            "name": "Advent Go!",
             "type": "go",
             "request": "launch",
             "mode": "auto",
