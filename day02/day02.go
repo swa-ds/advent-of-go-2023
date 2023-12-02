@@ -7,16 +7,18 @@ import (
 	"swads/aoc2023/fileutils"
 )
 
-var cubesMax = map[string]int{"red": 12, "green": 13, "blue": 14}
-
 func Solve() {
 	lines := fileutils.ReadLines("day02/input.txt")
 
 	part1 := SolvePart1(lines)
 	fmt.Printf("Day 02 - Part 1: %d\n", part1)
+
+	part2 := SolvePart2(lines)
+	fmt.Printf("Day 02 - Part 2: %d\n", part2)
 }
 
 func SolvePart1(lines []string) int {
+	cubesMax := map[string]int{"red": 12, "green": 13, "blue": 14}
 	result := 0
 	for _, line := range lines {
 		gameNr, gameStr := parseGame(line)
@@ -38,6 +40,30 @@ func SolvePart1(lines []string) int {
 		if isValid {
 			result += gameNr
 		}
+	}
+	return result
+}
+
+func SolvePart2(lines []string) int {
+	result := 0
+
+	for _, line := range lines {
+		cubesMin := map[string]int{"red": 0, "green": 0, "blue": 0}
+		_, gameStr := parseGame(line)
+
+		sets := splitAndTrim(gameStr, ";")
+		for _, set := range sets {
+			draws := splitAndTrim(set, ",")
+			for _, draw := range draws {
+				draw := splitAndTrim(draw, " ")
+				cubes := strToInt(draw[0])
+				color := draw[1]
+				if cubes > cubesMin[color] {
+					cubesMin[color] = cubes
+				}
+			}
+		}
+		result += cubesMin["blue"] * cubesMin["red"] * cubesMin["green"]
 	}
 	return result
 }
