@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "advent_of_code.go"
+            "program": "advent_of.go"
         }
     ]
 }
