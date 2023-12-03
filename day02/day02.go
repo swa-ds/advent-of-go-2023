@@ -2,7 +2,6 @@ package day02
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 	"swads/aoc2023/fileutils"
 )
@@ -29,7 +28,7 @@ func SolvePart1(lines []string) int {
 			draws := splitAndTrim(set, ",")
 			for _, draw := range draws {
 				draw := splitAndTrim(draw, " ")
-				cubes := strToInt(draw[0])
+				cubes := fileutils.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMax[color] {
 					isValid = false
@@ -56,7 +55,7 @@ func SolvePart2(lines []string) int {
 			draws := splitAndTrim(set, ",")
 			for _, draw := range draws {
 				draw := splitAndTrim(draw, " ")
-				cubes := strToInt(draw[0])
+				cubes := fileutils.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMin[color] {
 					cubesMin[color] = cubes
@@ -71,7 +70,7 @@ func SolvePart2(lines []string) int {
 func parseGame(line string) (gameNr int, games string) {
 	colonIdx := strings.Index(line, ":")
 	nrStr := line[5:colonIdx]
-	nr := strToInt(nrStr)
+	nr := fileutils.StrToInt(nrStr)
 	return nr, line[colonIdx+1:]
 }
 
@@ -82,12 +81,4 @@ func splitAndTrim(s string, delim string) []string {
 	}
 	return parts
 
-}
-
-func strToInt(s string) int {
-	nr, err := strconv.Atoi(s)
-	if err != nil {
-		panic(err)
-	}
-	return nr
 }
