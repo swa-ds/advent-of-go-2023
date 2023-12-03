@@ -13,7 +13,7 @@ func TestReadMatrix(t *testing.T) {
 		{'g', 'h', '1'},
 	}
 
-	matrix := ReadMatrix("../test/fileutil/matrix.txt")
+	matrix := ReadMatrix("../test/aocutils/matrix.txt")
 
 	for y := 0; y < len(expectedMatrix); y++ {
 		for x := 0; x < len(expectedMatrix[0]); x++ {
