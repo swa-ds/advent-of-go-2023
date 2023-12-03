@@ -2,12 +2,12 @@ package day01
 
 import (
 	"fmt"
-	"swads/aoc2023/fileutils"
+	"swads/aoc2023/aocutils"
 	"unicode"
 )
 
 func Solve() {
-	lines := fileutils.ReadLines("day01/input.txt")
+	lines := aocutils.ReadLines("day01/input.txt")
 
 	part1 := SolvePart1(lines)
 	fmt.Printf("Day 01 - Part 1: %d\n", part1)

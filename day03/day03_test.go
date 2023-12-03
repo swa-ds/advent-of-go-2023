@@ -1,7 +1,7 @@
 package day03
 
 import (
-	"swads/aoc2023/fileutils"
+	"swads/aoc2023/aocutils"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,7 +21,7 @@ var input = []string{
 	".664.598..",
 }
 
-var matrix = fileutils.LinesToMatrix(input)
+var matrix = aocutils.LinesToMatrix(input)
 
 func TestSolvePart1(t *testing.T) {
 	result := SolvePart1(matrix)
