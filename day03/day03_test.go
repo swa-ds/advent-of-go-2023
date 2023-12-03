@@ -21,15 +21,21 @@ var input = []string{
 	".664.598..",
 }
 
+var matrix = fileutils.LinesToMatrix(input)
+
 func TestSolvePart1(t *testing.T) {
-	matrix := fileutils.LinesToMatrix(input)
 	result := SolvePart1(matrix)
 
 	assert.Equal(t, 4361, result)
 }
 
+func TestSolvePart2(t *testing.T) {
+	result := SolvePart2(matrix)
+
+	assert.Equal(t, 467835, result)
+}
+
 func TestIsValidNumber(t *testing.T) {
-	matrix := fileutils.LinesToMatrix(input)
 	// 58 in row 6 is invalid
 	assert.False(t, isValidNumber(matrix, 5, 7, 9))
 	// 35 in row 3 is valid
