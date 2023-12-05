@@ -61,6 +61,14 @@ func Max(a int, b int) int {
 	return b
 }
 
+func SplitAndTrim(s string, delim string) []string {
+	parts := strings.Split(s, delim)
+	for i := range parts {
+		parts[i] = strings.TrimSpace(parts[i])
+	}
+	return parts
+}
+
 // Deprecated: remove variables if they're really not needed.
 // Call Unused with variables that are temporarily not needed, to avoid the compiler from complaining that they're unused.
 func Unused(unused ...interface{}) {}

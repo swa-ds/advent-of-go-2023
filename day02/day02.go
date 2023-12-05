@@ -22,12 +22,12 @@ func SolvePart1(lines []string) int {
 	for _, line := range lines {
 		gameNr, gameStr := parseGame(line)
 
-		sets := splitAndTrim(gameStr, ";")
+		sets := aocutils.SplitAndTrim(gameStr, ";")
 		isValid := true
 		for _, set := range sets {
-			draws := splitAndTrim(set, ",")
+			draws := aocutils.SplitAndTrim(set, ",")
 			for _, draw := range draws {
-				draw := splitAndTrim(draw, " ")
+				draw := aocutils.SplitAndTrim(draw, " ")
 				cubes := aocutils.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMax[color] {
@@ -50,11 +50,11 @@ func SolvePart2(lines []string) int {
 		cubesMin := map[string]int{"red": 0, "green": 0, "blue": 0}
 		_, gameStr := parseGame(line)
 
-		sets := splitAndTrim(gameStr, ";")
+		sets := aocutils.SplitAndTrim(gameStr, ";")
 		for _, set := range sets {
-			draws := splitAndTrim(set, ",")
+			draws := aocutils.SplitAndTrim(set, ",")
 			for _, draw := range draws {
-				draw := splitAndTrim(draw, " ")
+				draw := aocutils.SplitAndTrim(draw, " ")
 				cubes := aocutils.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMin[color] {
@@ -72,13 +72,4 @@ func parseGame(line string) (gameNr int, games string) {
 	nrStr := line[5:colonIdx]
 	nr := aocutils.StrToInt(nrStr)
 	return nr, line[colonIdx+1:]
-}
-
-func splitAndTrim(s string, delim string) []string {
-	parts := strings.Split(s, delim)
-	for i := range parts {
-		parts[i] = strings.TrimSpace(parts[i])
-	}
-	return parts
-
 }
