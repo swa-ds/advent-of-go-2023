@@ -17,9 +17,9 @@ var input = []string{
 }
 
 func TestSolve1(t *testing.T) {
-	result := SolvePart1(input)
+	part1, _ := SolvePart1And2(input)
 
-	assert.Equal(t, 13, result)
+	assert.Equal(t, 13, part1)
 }
 
 func TestFields(t *testing.T) {
@@ -33,6 +33,10 @@ func TestFields(t *testing.T) {
 
 }
 
-func TestXxx(t *testing.T) {
+func TestPow(t *testing.T) {
+	assert.Equal(t, 0, scorePart1(0))
+	assert.Equal(t, 1, scorePart1(1))
+	assert.Equal(t, 2, scorePart1(2))
+	assert.Equal(t, 4, scorePart1(3))
 
 }
