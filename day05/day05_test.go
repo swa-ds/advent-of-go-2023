@@ -47,3 +47,9 @@ func TestSolvePart1(t *testing.T) {
 
 	assert.Equal(t, 35, result)
 }
+
+func TestSolvePart2(t *testing.T) {
+	result := SolvePart2(input)
+
+	assert.Equal(t, 46, result)
+}

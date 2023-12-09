@@ -11,12 +11,13 @@ func Solve() {
 	input := util.ReadFile("day05/input.txt")
 	part1 := SolvePart1(input)
 	fmt.Println("Day 05 - Part 1:", part1)
+	part2 := SolvePart2(input)
+	fmt.Println("Day 05 - Part 2:", part2)
 }
 
-// input contains the seeds (first element in the array) and the map definitions (one array element each)
 func SolvePart1(input string) int {
 	parts := util.SplitAndTrim(input, "\n\n")
-	seeds := parseSeeds(parts[0])
+	seeds := parseSeeds1(parts[0])
 	seedToSoil := parseMap(parts[1])
 	soilToFertilizer := parseMap(parts[2])
 	fertilizerToWater := parseMap(parts[3])
@@ -39,12 +40,55 @@ func SolvePart1(input string) int {
 	return min
 }
 
-func parseSeeds(line string) []int {
+func SolvePart2(input string) int {
+	parts := util.SplitAndTrim(input, "\n\n")
+	seeds := parseSeeds2(parts[0])
+	seedToSoil := parseMap(parts[1])
+	soilToFertilizer := parseMap(parts[2])
+	fertilizerToWater := parseMap(parts[3])
+	waterToLight := parseMap(parts[4])
+	lightToTemp := parseMap(parts[5])
+	tempToHumidity := parseMap(parts[6])
+	humidityToLocation := parseMap(parts[7])
+
+	min := math.MaxInt
+	for _, seed := range seeds {
+		for i := seed.Start; i < seed.End; i++ {
+			conv := seedToSoil.mappedValue(i)
+			conv = soilToFertilizer.mappedValue(conv)
+			conv = fertilizerToWater.mappedValue(conv)
+			conv = waterToLight.mappedValue(conv)
+			conv = lightToTemp.mappedValue(conv)
+			conv = tempToHumidity.mappedValue(conv)
+			conv = humidityToLocation.mappedValue(conv)
+			min = util.Min(min, conv)
+		}
+	}
+	return min
+}
+
+func parseSeeds1(line string) []int {
 	seeds := []int{}
 	for _, seed := range strings.Fields(line)[1:] {
 		seeds = append(seeds, util.StrToInt(seed))
 	}
 	return seeds
+}
+
+func parseSeeds2(line string) []SeedRange {
+	ranges := []SeedRange{}
+	fields := strings.Fields(line)[1:]
+	for i := 0; i < len(fields); i += 2 {
+		s := util.StrToInt(fields[i])
+		e := s + util.StrToInt(fields[i+1])
+		ranges = append(ranges, SeedRange{s, e})
+	}
+	return ranges
+}
+
+type SeedRange struct {
+	Start int
+	End   int
 }
 
 func parseMap(mapInput string) Map {
