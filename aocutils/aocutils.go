@@ -2,10 +2,19 @@ package aocutils
 
 import (
 	"bufio"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
 )
+
+func ReadFile(path string) string {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+	return string(content)
+}
 
 func ReadLines(path string) []string {
 	file, err := os.Open(path)
@@ -45,6 +54,14 @@ func StrToInt(s string) int {
 		panic(err)
 	}
 	return nr
+}
+
+func StrToUint(s string) uint {
+	nr, err := strconv.ParseUint(s, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	return uint(nr)
 }
 
 func Min(a int, b int) int {
