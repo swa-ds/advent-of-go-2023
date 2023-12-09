@@ -2,7 +2,7 @@ package day03
 
 import (
 	"fmt"
-	aocutils "swads/aoc2023/aocutils"
+	util "swads/aoc2023/aocutils"
 	"unicode"
 )
 
@@ -31,7 +31,7 @@ func (m MultiMap) keys() []star {
 var noStar = star{-1, -1}
 
 func Solve() {
-	matrix := aocutils.ReadMatrix("day03/input.txt")
+	matrix := util.ReadMatrix("day03/input.txt")
 
 	part1 := SolvePart1(matrix)
 	fmt.Printf("Day 03 - Part 1: %d\n", part1)
@@ -57,7 +57,7 @@ func SolvePart1(matrix [][]rune) int {
 					numberEnd = col + 1
 					numberStr := string(matrix[row])[numberStart:numberEnd]
 					if isValidNumber(matrix, row, numberStart, numberEnd) {
-						number := aocutils.StrToInt(numberStr)
+						number := util.StrToInt(numberStr)
 						result += number
 						numbers = append(numbers, numberStr+"v")
 					} else {
@@ -70,7 +70,7 @@ func SolvePart1(matrix [][]rune) int {
 					numberEnd = col
 					numberStr := string(matrix[row])[numberStart:numberEnd]
 					if isValidNumber(matrix, row, numberStart, numberEnd) {
-						number := aocutils.StrToInt(numberStr)
+						number := util.StrToInt(numberStr)
 						result += number
 						numbers = append(numbers, numberStr+"v")
 					} else {
@@ -97,7 +97,7 @@ func isValidNumber(matrix [][]rune, row int, numStart int, numEnd int) bool {
 	}
 	checkUpperLine := row > 0
 	checkLowerLine := row < len(matrix)-1
-	for col := aocutils.Max(0, numStart-1); col < aocutils.Min(numEnd+1, len(matrix[0])); col++ {
+	for col := util.Max(0, numStart-1); col < util.Min(numEnd+1, len(matrix[0])); col++ {
 		if checkUpperLine && matrix[row-1][col] != '.' {
 			return true
 		}
@@ -125,7 +125,7 @@ func SolvePart2(matrix [][]rune) int {
 					numberStr := string(matrix[row])[numberStart:numberEnd]
 					adjStar := findAdjacentStar(matrix, row, numberStart, numberEnd)
 					if adjStar != noStar {
-						number := aocutils.StrToInt(numberStr)
+						number := util.StrToInt(numberStr)
 						starredNumbers.add(adjStar, number)
 					}
 				}
@@ -136,7 +136,7 @@ func SolvePart2(matrix [][]rune) int {
 					numberStr := string(matrix[row])[numberStart:numberEnd]
 					adjStar := findAdjacentStar(matrix, row, numberStart, numberEnd)
 					if adjStar != noStar {
-						number := aocutils.StrToInt(numberStr)
+						number := util.StrToInt(numberStr)
 						starredNumbers.add(adjStar, number)
 					}
 				}
@@ -166,7 +166,7 @@ func findAdjacentStar(matrix [][]rune, row int, numStart int, numEnd int) star {
 	}
 	checkUpperLine := row > 0
 	checkLowerLine := row < len(matrix)-1
-	for col := aocutils.Max(0, numStart-1); col < aocutils.Min(numEnd+1, len(matrix[0])); col++ {
+	for col := util.Max(0, numStart-1); col < util.Min(numEnd+1, len(matrix[0])); col++ {
 		if checkUpperLine && matrix[row-1][col] == '*' {
 			return star{row - 1, col}
 		}

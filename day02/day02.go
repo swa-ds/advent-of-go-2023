@@ -3,11 +3,11 @@ package day02
 import (
 	"fmt"
 	"strings"
-	"swads/aoc2023/aocutils"
+	util "swads/aoc2023/aocutils"
 )
 
 func Solve() {
-	lines := aocutils.ReadLines("day02/input.txt")
+	lines := util.ReadLines("day02/input.txt")
 
 	part1 := SolvePart1(lines)
 	fmt.Printf("Day 02 - Part 1: %d\n", part1)
@@ -22,13 +22,13 @@ func SolvePart1(lines []string) int {
 	for _, line := range lines {
 		gameNr, gameStr := parseGame(line)
 
-		sets := aocutils.SplitAndTrim(gameStr, ";")
+		sets := util.SplitAndTrim(gameStr, ";")
 		isValid := true
 		for _, set := range sets {
-			draws := aocutils.SplitAndTrim(set, ",")
+			draws := util.SplitAndTrim(set, ",")
 			for _, draw := range draws {
-				draw := aocutils.SplitAndTrim(draw, " ")
-				cubes := aocutils.StrToInt(draw[0])
+				draw := util.SplitAndTrim(draw, " ")
+				cubes := util.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMax[color] {
 					isValid = false
@@ -50,12 +50,12 @@ func SolvePart2(lines []string) int {
 		cubesMin := map[string]int{"red": 0, "green": 0, "blue": 0}
 		_, gameStr := parseGame(line)
 
-		sets := aocutils.SplitAndTrim(gameStr, ";")
+		sets := util.SplitAndTrim(gameStr, ";")
 		for _, set := range sets {
-			draws := aocutils.SplitAndTrim(set, ",")
+			draws := util.SplitAndTrim(set, ",")
 			for _, draw := range draws {
-				draw := aocutils.SplitAndTrim(draw, " ")
-				cubes := aocutils.StrToInt(draw[0])
+				draw := util.SplitAndTrim(draw, " ")
+				cubes := util.StrToInt(draw[0])
 				color := draw[1]
 				if cubes > cubesMin[color] {
 					cubesMin[color] = cubes
@@ -70,6 +70,6 @@ func SolvePart2(lines []string) int {
 func parseGame(line string) (gameNr int, games string) {
 	colonIdx := strings.Index(line, ":")
 	nrStr := line[5:colonIdx]
-	nr := aocutils.StrToInt(nrStr)
+	nr := util.StrToInt(nrStr)
 	return nr, line[colonIdx+1:]
 }
