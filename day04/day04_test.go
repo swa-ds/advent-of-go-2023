@@ -22,6 +22,12 @@ func TestSolve1(t *testing.T) {
 	assert.Equal(t, 13, part1)
 }
 
+func TestSolve2(t *testing.T) {
+	_, part2 := SolvePart1And2(input)
+
+	assert.Equal(t, 30, part2)
+}
+
 func TestFields(t *testing.T) {
 	f := strings.Fields(input[0])
 
