@@ -11,8 +11,12 @@ func Solve() {
 	input := util.ReadFile("day05/input.txt")
 	part1 := SolvePart1(input)
 	fmt.Println("Day 05 - Part 1:", part1)
-	part2 := SolvePart2(input)
-	fmt.Println("Day 05 - Part 2:", part2)
+
+	fmt.Println("Day 05 - Part 2: Skipping, since brute force method takes about 4,5 minutes!")
+	//startTime := time.Now()
+	//part2 := SolvePart2(input)
+	//fmt.Println("Day 05 - Part 2:", part2)
+	//fmt.Println("Duration:", time.Since(startTime))
 }
 
 func SolvePart1(input string) int {
