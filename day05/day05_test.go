@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var example = `seeds: 79 14 55 13
+var input = `seeds: 79 14 55 13
 
 seed-to-soil map:
 50 98 2
@@ -39,8 +39,6 @@ temperature-to-humidity map:
 humidity-to-location map:
 60 56 37
 56 93 4`
-
-var input = example
 
 func TestSolvePart1(t *testing.T) {
 	result := SolvePart1(input)

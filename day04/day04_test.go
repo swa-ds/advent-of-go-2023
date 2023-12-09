@@ -16,13 +16,13 @@ var input = []string{
 	"Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
 }
 
-func TestSolve1(t *testing.T) {
+func TestSolvePart1(t *testing.T) {
 	part1, _ := SolvePart1And2(input)
 
 	assert.Equal(t, 13, part1)
 }
 
-func TestSolve2(t *testing.T) {
+func TestSolvePart2(t *testing.T) {
 	_, part2 := SolvePart1And2(input)
 
 	assert.Equal(t, 30, part2)
