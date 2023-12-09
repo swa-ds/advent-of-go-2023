@@ -2,7 +2,7 @@ package day05
 
 import (
 	"fmt"
-	"sort"
+	"math"
 	"strings"
 	util "swads/aoc2023/aocutils"
 )
@@ -25,7 +25,7 @@ func SolvePart1(input string) int {
 	tempToHumidity := parseMap(parts[6])
 	humidityToLocation := parseMap(parts[7])
 
-	converted := []int{}
+	min := math.MaxInt
 	for _, seed := range seeds {
 		conv := seedToSoil.mappedValue(seed)
 		conv = soilToFertilizer.mappedValue(conv)
@@ -34,10 +34,9 @@ func SolvePart1(input string) int {
 		conv = lightToTemp.mappedValue(conv)
 		conv = tempToHumidity.mappedValue(conv)
 		conv = humidityToLocation.mappedValue(conv)
-		converted = append(converted, conv)
+		min = util.Min(min, conv)
 	}
-	sort.Ints(converted)
-	return converted[0]
+	return min
 }
 
 func parseSeeds(line string) []int {
