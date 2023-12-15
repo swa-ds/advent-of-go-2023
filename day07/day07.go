@@ -51,29 +51,30 @@ func calculateStrength(hand string) int {
 	//fmt.Println("Calulating Hand:", hand, "frequencies are:", frequencies)
 	strength := 0
 	factor := 100_000_000
+	handRunes := []rune(hand)
 	for idx := 0; idx < len(hand); idx++ {
-		cardValue := strings.Index(cardOrder, hand[idx:idx+1]) + 1
+		cardValue := cardValue(handRunes[idx])
 		strength += cardValue * factor
 		factor /= 100
 	}
 	frequencies := frequencies(hand)
-	sort.Sort(sort.Reverse(sort.IntSlice(frequencies)))
-	if frequencies[0] == 5 {
+	sort.Sort(ByFrequencyAndCardValue(frequencies))
+	if frequencies[0].count == 5 {
 		//fmt.Println("five of a kind")
 		strength += 70_000_000_000
-	} else if frequencies[0] == 4 {
+	} else if frequencies[0].count == 4 {
 		//fmt.Println("four of a kind")
 		strength += 60_000_000_000
-	} else if frequencies[0] == 3 && frequencies[1] == 2 {
+	} else if frequencies[0].count == 3 && frequencies[1].count == 2 {
 		//fmt.Println("full house")
 		strength += 50_000_000_000
-	} else if frequencies[0] == 3 {
+	} else if frequencies[0].count == 3 {
 		//fmt.Println("three of a kind")
 		strength += 40_000_000_000
-	} else if frequencies[0] == 2 && frequencies[1] == 2 {
+	} else if frequencies[0].count == 2 && frequencies[1].count == 2 {
 		//fmt.Println("two pair")
 		strength += 30_000_000_000
-	} else if frequencies[0] == 2 {
+	} else if frequencies[0].count == 2 {
 		//fmt.Println("one pair")
 		strength += 20_000_000_000
 	} else {
@@ -83,16 +84,46 @@ func calculateStrength(hand string) int {
 	return strength
 }
 
-func frequencies(hand string) []int {
+func frequencies(hand string) []Frequency {
 	freqMap := make(map[rune]int)
 	for _, char := range hand {
 		freqMap[char] = freqMap[char] + 1
 	}
-	freq := []int{}
-	for _, count := range freqMap {
-		freq = append(freq, count)
+	freq := []Frequency{}
+	for char, count := range freqMap {
+		f := Frequency{
+			count: count,
+			char:  char,
+		}
+		freq = append(freq, f)
 	}
 	return freq
+}
+
+type Frequency = struct {
+	count int
+	char  rune
+}
+
+type ByFrequencyAndCardValue []Frequency
+
+func (a ByFrequencyAndCardValue) Len() int {
+	return len(a)
+}
+
+func (a ByFrequencyAndCardValue) Less(i, j int) bool {
+	if a[i].count == a[j].count {
+		return cardValue(a[i].char) < cardValue(a[j].char)
+	}
+	return a[i].count > a[j].count
+}
+
+func (a ByFrequencyAndCardValue) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
+}
+
+func cardValue(r rune) int {
+	return strings.Index(cardOrder, string(r)) + 1
 }
 
 type ByStrength []Hand
