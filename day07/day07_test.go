@@ -22,6 +22,12 @@ func TestSolvePart1(t *testing.T) {
 	assert.Equal(t, 6440, result)
 }
 
+func TestSolvePart2(t *testing.T) {
+	result := SolvePart(input, part2)
+
+	assert.Equal(t, 5905, result)
+}
+
 func TestCalculateStrengthPart1(t *testing.T) {
 	hand := "23456"
 	assert.Equal(t, 10_102_030_405, calculateStrengthPart1(hand))

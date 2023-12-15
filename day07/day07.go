@@ -14,9 +14,11 @@ const (
 
 var cardOrderPart1 = "23456789TJQKA"
 var cardOrderPart2 = "J23456789TQKA"
+var cardOrder = ""
 
-func cardValuePart1(r rune) int {
-	return strings.Index(cardOrderPart1, string(r)) + 1
+func cardValue(r rune) int {
+	fmt.Println("card order", cardOrder)
+	return strings.Index(cardOrder, string(r)) + 1
 }
 
 func Solve() {
@@ -70,12 +72,14 @@ func NewHand(input string, part int) Hand {
 }
 
 func calculateStrengthPart1(hand string) int {
+	cardOrder = cardOrderPart1
+	//fmt.Println("card order:", cardOrder)
 	//fmt.Println("Calulating Hand:", hand, "frequencies are:", frequencies)
 	strength := 0
 	factor := 100_000_000
 	handRunes := []rune(hand)
 	for idx := 0; idx < len(hand); idx++ {
-		cardValue := cardValuePart1(handRunes[idx])
+		cardValue := cardValue(handRunes[idx])
 		strength += cardValue * factor
 		factor /= 100
 	}
@@ -107,18 +111,27 @@ func calculateStrengthPart1(hand string) int {
 }
 
 func calculateStrengthPart2(hand string) int {
+	cardOrder = cardOrderPart2
+	//fmt.Println("card order:", cardOrder)
 	//fmt.Println("Calulating Hand:", hand, "frequencies are:", frequencies)
 	strength := 0
 	factor := 100_000_000
 	handRunes := []rune(hand)
 	for idx := 0; idx < len(hand); idx++ {
-		cardValue := cardValuePart1(handRunes[idx])
+		cardValue := cardValue(handRunes[idx])
 		strength += cardValue * factor
 		factor /= 100
 	}
 	frequencies := frequencies(hand)
+	jokerCount := 0
+	for _, freq := range frequencies {
+		if freq.char == 'J' {
+			jokerCount = freq.count
+		}
+	}
+	frequencies[0].count += jokerCount
 	sort.Sort(ByFrequencyAndCardValue(frequencies))
-	fmt.Println(frequencies)
+	//fmt.Println(frequencies)
 	if frequencies[0].count == 5 {
 		//fmt.Println("five of a kind")
 		strength += 70_000_000_000
@@ -173,7 +186,7 @@ func (a ByFrequencyAndCardValue) Len() int {
 
 func (a ByFrequencyAndCardValue) Less(i, j int) bool {
 	if a[i].count == a[j].count {
-		return cardValuePart1(a[i].char) < cardValuePart1(a[j].char)
+		return cardValue(a[i].char) < cardValue(a[j].char)
 	}
 	return a[i].count > a[j].count
 }
