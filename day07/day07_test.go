@@ -22,16 +22,16 @@ func TestSolvePart1(t *testing.T) {
 	assert.Equal(t, 6440, result)
 }
 
-func TestCalculateStrength(t *testing.T) {
+func TestCalculateStrengthPart1(t *testing.T) {
 	hand := "23456"
-	assert.Equal(t, 10_102_030_405, calculateStrength(hand))
+	assert.Equal(t, 10_102_030_405, calculateStrengthPart1(hand))
 
 	hand = "AKQJT"
-	assert.Equal(t, 11_312_111_009, calculateStrength(hand))
+	assert.Equal(t, 11_312_111_009, calculateStrengthPart1(hand))
 }
 
 func TestIndex(t *testing.T) {
-	assert.Equal(t, 9, strings.Index(string(cardOrder), "J"))
+	assert.Equal(t, 9, strings.Index(string(cardOrderPart1), "J"))
 }
 
 func TestReverseSort(t *testing.T) {
