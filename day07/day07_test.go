@@ -17,7 +17,7 @@ var input = []string{
 }
 
 func TestSolvePart1(t *testing.T) {
-	result := SolvePart1(input)
+	result := SolvePart(input, part1)
 
 	assert.Equal(t, 6440, result)
 }

@@ -21,22 +21,24 @@ func cardValuePart1(r rune) int {
 
 func Solve() {
 	input := aocutils.ReadLines("day07/input.txt")
-	part1 := SolvePart1(input)
-	fmt.Println("Day 07 - Part 1:", part1)
+	resultPart1 := SolvePart(input, part1)
+	fmt.Println("Day 07 - Part 1:", resultPart1)
+	resultPart2 := SolvePart(input, part2)
+	fmt.Println("Day 07 - Part 2:", resultPart2)
 }
 
-func SolvePart1(input []string) int {
+func SolvePart(input []string, part int) int {
 	hands := []Hand{}
 	for _, hand := range input {
-		hands = append(hands, NewHand(hand, part1))
+		hands = append(hands, NewHand(hand, part))
 	}
-	sort.Sort(ByStrength(hands))
-	//fmt.Println(hands)
 	result := calculateResult(hands)
 	return result
 }
 
 func calculateResult(hands []Hand) int {
+	sort.Sort(ByStrength(hands))
+	//fmt.Println(hands)
 	result := 0
 	for i, hand := range hands {
 		result += (i + 1) * hand.bid
@@ -116,6 +118,7 @@ func calculateStrengthPart2(hand string) int {
 	}
 	frequencies := frequencies(hand)
 	sort.Sort(ByFrequencyAndCardValue(frequencies))
+	fmt.Println(frequencies)
 	if frequencies[0].count == 5 {
 		//fmt.Println("five of a kind")
 		strength += 70_000_000_000
