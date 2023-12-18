@@ -17,7 +17,7 @@ var cardOrderPart2 = "J23456789TQKA"
 var cardOrder = ""
 
 func cardValue(r rune) int {
-	fmt.Println("card order", cardOrder)
+	//fmt.Println("card order", cardOrder)
 	return strings.Index(cardOrder, string(r)) + 1
 }
 
@@ -123,14 +123,26 @@ func calculateStrengthPart2(hand string) int {
 		factor /= 100
 	}
 	frequencies := frequencies(hand)
-	jokerCount := 0
-	for _, freq := range frequencies {
+
+	jokerIdx := -1
+	for i, freq := range frequencies {
 		if freq.char == 'J' {
-			jokerCount = freq.count
+			jokerIdx = i
+			break
 		}
 	}
-	frequencies[0].count += jokerCount
+	jokerCount := 0
+	if jokerIdx >= 0 {
+		jokerCount = frequencies[jokerIdx].count
+		// remove joker from frequencies
+		frequencies = append(frequencies[:jokerIdx], frequencies[jokerIdx+1:]...)
+	}
 	sort.Sort(ByFrequencyAndCardValue(frequencies))
+	// for special case 'JJJJJ' we get an empty slice because frequency for 'J' has been filtered out before
+	if len(frequencies) == 0 {
+		frequencies = make([]Frequency, 1)
+	}
+	frequencies[0].count += jokerCount
 	//fmt.Println(frequencies)
 	if frequencies[0].count == 5 {
 		//fmt.Println("five of a kind")
@@ -169,6 +181,7 @@ func frequencies(hand string) []Frequency {
 			char:  char,
 		}
 		freq = append(freq, f)
+
 	}
 	return freq
 }
