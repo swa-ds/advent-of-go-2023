@@ -52,7 +52,28 @@ func TestSolvePart2(t *testing.T) {
 	assert.Equal(t, 6, result)
 }
 
-func TestXxx(t *testing.T) {
+func TestLastChar(t *testing.T) {
 	s := "ABC"
 	assert.Equal(t, "C", lastChar(s))
+}
+
+func TestEndsWith(t *testing.T) {
+	assert.Equal(t, true, endsWith("ABZ", "Z"))
+	assert.Equal(t, true, endsWith("ABZ", "BZ"))
+	assert.Equal(t, true, endsWith("ABZ", "ABZ"))
+	assert.Equal(t, false, endsWith("ABZ", "X"))
+	assert.Equal(t, false, endsWith("A", "XYZ"))
+}
+
+func TestLcm(t *testing.T) {
+	assert.Equal(t, 6, lcmTwo(2, 3))
+}
+
+func TestLcmMultiple(t *testing.T) {
+	assert.Equal(t, 90, lcm(2, 5, 9))
+}
+
+func TestMap(t *testing.T) {
+	m := make(map[string]int)
+	assert.Equal(t, 0, m["x"])
 }
