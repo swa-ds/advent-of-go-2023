@@ -9,6 +9,7 @@ import (
 	"swads/aoc2023/day06"
 	"swads/aoc2023/day07"
 	"swads/aoc2023/day08"
+	"swads/aoc2023/day09"
 )
 
 func main() {
@@ -20,4 +21,5 @@ func main() {
 	day06.Solve()
 	day07.Solve()
 	day08.Solve()
+	day09.Solve()
 }
