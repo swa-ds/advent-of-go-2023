@@ -18,11 +18,24 @@ func TestSolvePart1(t *testing.T) {
 	assert.Equal(t, 114, result)
 }
 
+func TestSolvePart2(t *testing.T) {
+	result := SolvePart2(input)
+
+	assert.Equal(t, 2, result)
+}
+
 func TestPredictNextValue(t *testing.T) {
 	line := ("0 3 6 9 12 15")
 	nextValue := PredictNextValue(line)
 
 	assert.Equal(t, 18, nextValue)
+}
+
+func TestPredictPreviousValue(t *testing.T) {
+	line := ("10  13  16  21  30  45")
+	previousValue := PredictPreviousValue(line)
+
+	assert.Equal(t, 5, previousValue)
 }
 
 func TestGenerateNextSequence(t *testing.T) {
