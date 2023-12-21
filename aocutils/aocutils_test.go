@@ -33,3 +33,8 @@ func TestMax(t *testing.T) {
 	assert.Equal(t, 8, Max(3, 8))
 	assert.Equal(t, 8, Max(8, 3))
 }
+
+func TestStringsToNumbers(t *testing.T) {
+	sequence := "10 13 16 21 30 45"
+	assert.Equal(t, []int{10, 13, 16, 21, 30, 45}, StringsToNumbers(sequence))
+}

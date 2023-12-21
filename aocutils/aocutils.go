@@ -56,6 +56,15 @@ func StrToInt(s string) int {
 	return nr
 }
 
+func StringsToNumbers(numStrings string) []int {
+	strFields := strings.Fields(numStrings)
+	numbers := []int{}
+	for _, numStr := range strFields {
+		numbers = append(numbers, StrToInt(numStr))
+	}
+	return numbers
+}
+
 func StrToUint(s string) uint {
 	nr, err := strconv.ParseUint(s, 10, 64)
 	if err != nil {
