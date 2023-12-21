@@ -87,11 +87,9 @@ func (f *Field) move() {
 
 func (f *Field) moveF() {
 	if f.direction == North {
-		f.direction = East
-		f.pos = Position{f.pos.x + 1, f.pos.y}
+		f.goEast()
 	} else if f.direction == West {
-		f.direction = South
-		f.pos = Position{f.pos.x, f.pos.y + 1}
+		f.goSouth()
 	}
 }
 
