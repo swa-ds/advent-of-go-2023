@@ -42,6 +42,38 @@ func TestSolvePart1(t *testing.T) {
 	assert.Equal(t, 374, part1)
 }
 
+func TestSolvePart1WithPart2Method(t *testing.T) {
+	part1 := SolvePart2(input, 2)
+
+	assert.Equal(t, 374, part1)
+}
+
+func TestSolvePart2(t *testing.T) {
+	part2 := SolvePart2(input, 10)
+
+	assert.Equal(t, 1030, part2)
+
+	part2 = SolvePart2(input, 100)
+	assert.Equal(t, 8410, part2)
+}
+
+func TestExpandCoord(t *testing.T) {
+	expansionRate := 2
+	expandedCoords := []int{1, 5}
+	galaxyCoord := 2
+
+	expandedCoord := expandCoord(galaxyCoord, expansionRate, expandedCoords)
+
+	assert.Equal(t, 3, expandedCoord)
+
+	expansionRate = 10
+	galaxyCoord = 7
+
+	expandedCoord = expandCoord(galaxyCoord, expansionRate, expandedCoords)
+
+	assert.Equal(t, 25, expandedCoord)
+}
+
 func TestExpandSpace(t *testing.T) {
 	space := expandSpace(input)
 	for i, row := range space {
