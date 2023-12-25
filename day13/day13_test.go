@@ -39,7 +39,20 @@ func TestParsePatterns(t *testing.T) {
 
 func TestFind(t *testing.T) {
 	patterns := parsePatterns(input)
-	hor := find(patterns[0])
+	hor := find(patterns[0], 0)
 
 	assert.Equal(t, 5, hor)
+
+	vert := find(patterns[1], 0)
+
+	assert.Equal(t, 400, vert)
+
+}
+
+func TestRowDiffs(t *testing.T) {
+	diffs := diffsInRows("abcde", "abcde")
+	assert.Equal(t, 0, diffs)
+
+	diffs = diffsInRows("abcde", "abcdx")
+	assert.Equal(t, 1, diffs)
 }

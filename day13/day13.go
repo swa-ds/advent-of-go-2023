@@ -19,7 +19,7 @@ func SolvePart1(input []string) int {
 	patterns := parsePatterns(input)
 	result := 0
 	for _, p := range patterns {
-		result += find(p)
+		result += find(p, 0)
 	}
 	return result
 }
@@ -49,18 +49,18 @@ func parsePatterns(input []string) (patterns []Pattern) {
 	return
 }
 
-func find(p Pattern) int {
-	hor := findReflection(p.pattern) * 100
+func find(p Pattern, maxDiffs int) int {
+	hor := findReflection(p.pattern, maxDiffs) * 100
 	rotated := rotateMatrix(p.pattern)
-	vert := findReflection(rotated)
+	vert := findReflection(rotated, maxDiffs)
 	return hor + vert
 }
 
-func findReflection(input []string) int {
+func findReflection(input []string, maxDiffs int) int {
 	for i := 0; i < len(input)-1; i++ {
-		if input[i] == input[i+1] {
+		if diffsInRows(input[i], input[i+1]) <= maxDiffs {
 			//fmt.Println("Reflection candidate at row", i)
-			if isReflectionAt(input, i) {
+			if isReflectionAt(input, i, maxDiffs) {
 				return i + 1
 			}
 		}
@@ -68,13 +68,22 @@ func findReflection(input []string) int {
 	return 0
 }
 
-func isReflectionAt(input []string, i int) bool {
-	for a, b := i-1, i+2; a >= 0 && b < len(input); a, b = a-1, b+1 {
-		if input[a] != input[b] {
-			return false
+func diffsInRows(s1, s2 string) int {
+	diffs := 0
+	for i := 0; i < len(s1); i++ {
+		if s1[i:i+1] != s2[i:i+1] {
+			diffs++
 		}
 	}
-	return true
+	return diffs
+}
+
+func isReflectionAt(input []string, row int, requiredDiffs int) bool {
+	diffs := 0
+	for a, b := row, row+1; a >= 0 && b < len(input); a, b = a-1, b+1 {
+		diffs += diffsInRows(input[a], input[b])
+	}
+	return diffs == requiredDiffs
 }
 
 type Pattern struct {
