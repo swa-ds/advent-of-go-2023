@@ -37,9 +37,9 @@ func TestParsePatterns(t *testing.T) {
 	fmt.Println(patterns)
 }
 
-func TestFindReflection(t *testing.T) {
+func TestFind(t *testing.T) {
 	patterns := parsePatterns(input)
-	hor := findReflection(patterns[0].pattern)
+	hor := find(patterns[0])
 
-	assert.Equal(t, 4, hor)
+	assert.Equal(t, 5, hor)
 }
