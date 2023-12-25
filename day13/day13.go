@@ -12,14 +12,23 @@ func Solve() {
 	part1 := SolvePart1(input)
 	fmt.Println("Day 13 - Part 1:", part1)
 
-	//part2 := SolvePart2(input)
-	//fmt.Println("Day 13 - Part 2:", part2)
+	part2 := SolvePart2(input)
+	fmt.Println("Day 13 - Part 2:", part2)
 }
 func SolvePart1(input []string) int {
 	patterns := parsePatterns(input)
 	result := 0
 	for _, p := range patterns {
 		result += find(p, 0)
+	}
+	return result
+}
+
+func SolvePart2(input []string) int {
+	patterns := parsePatterns(input)
+	result := 0
+	for _, p := range patterns {
+		result += find(p, 1)
 	}
 	return result
 }
@@ -49,18 +58,18 @@ func parsePatterns(input []string) (patterns []Pattern) {
 	return
 }
 
-func find(p Pattern, maxDiffs int) int {
-	hor := findReflection(p.pattern, maxDiffs) * 100
+func find(p Pattern, requiredDiffs int) int {
+	hor := findReflection(p.pattern, requiredDiffs) * 100
 	rotated := rotateMatrix(p.pattern)
-	vert := findReflection(rotated, maxDiffs)
+	vert := findReflection(rotated, requiredDiffs)
 	return hor + vert
 }
 
-func findReflection(input []string, maxDiffs int) int {
+func findReflection(input []string, requiredDiffs int) int {
 	for i := 0; i < len(input)-1; i++ {
-		if diffsInRows(input[i], input[i+1]) <= maxDiffs {
+		if diffsInRows(input[i], input[i+1]) <= requiredDiffs {
 			//fmt.Println("Reflection candidate at row", i)
-			if isReflectionAt(input, i, maxDiffs) {
+			if isReflectionAt(input, i, requiredDiffs) {
 				return i + 1
 			}
 		}

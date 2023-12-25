@@ -31,13 +31,19 @@ func TestSolvePart1(t *testing.T) {
 	assert.Equal(t, 405, result)
 }
 
+func TestSolvePart2(t *testing.T) {
+	result := SolvePart2(input)
+
+	assert.Equal(t, 400, result)
+}
+
 func TestParsePatterns(t *testing.T) {
 	patterns := parsePatterns(input)
 	assert.Equal(t, 2, len(patterns))
 	fmt.Println(patterns)
 }
 
-func TestFind(t *testing.T) {
+func TestFindPart1(t *testing.T) {
 	patterns := parsePatterns(input)
 	hor := find(patterns[0], 0)
 
@@ -47,6 +53,17 @@ func TestFind(t *testing.T) {
 
 	assert.Equal(t, 400, vert)
 
+}
+
+func TestFindPart2(t *testing.T) {
+	patterns := parsePatterns(input)
+	hor := find(patterns[0], 1)
+
+	assert.Equal(t, 300, hor)
+
+	vert := find(patterns[1], 1)
+
+	assert.Equal(t, 100, vert)
 }
 
 func TestRowDiffs(t *testing.T) {
