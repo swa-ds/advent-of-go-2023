@@ -58,8 +58,8 @@ func SolvePart2(input string) int {
 func put(box Box, boxes [][]Box) {
 	hash := hash(box.label)
 	lenses := boxes[hash]
-	for i, boxInSlot := range lenses {
-		if boxInSlot.label == box.label {
+	for i, lens := range lenses {
+		if lens.label == box.label {
 			lenses[i] = box
 			boxes[hash] = lenses
 			return
@@ -75,6 +75,7 @@ func remove(label string, boxes [][]Box) {
 		if box.label == label {
 			lenses = append(lenses[:i], lenses[i+1:]...)
 			boxes[hash] = lenses
+			return
 		}
 	}
 }
