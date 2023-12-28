@@ -2,6 +2,7 @@ package day16
 
 import (
 	"fmt"
+	"slices"
 	util "swads/aoc2023/aocutils"
 
 	mapset "github.com/deckarep/golang-set/v2"
@@ -28,14 +29,14 @@ const (
 	Right
 )
 
-// save seen beams to prevent infinite loops
-var seen = mapset.NewSet[Beam]()
-
 func Solve() {
 	input := util.ReadLines("day16/input.txt")
 
 	part1 := SolvePart1(input)
 	fmt.Println("Day 16 - Part 1:", part1)
+
+	part2 := SolvePart2(input)
+	fmt.Println("Day 16 - Part 2:", part2)
 }
 
 func SolvePart1(input []string) int {
@@ -43,20 +44,48 @@ func SolvePart1(input []string) int {
 
 	beam := NewBeam(Right, Position{0, 0})
 
-	energized := mapset.NewSet[Position]()
+	return energize(beam, grid)
+}
 
-	run(beam, grid, energized)
+func SolvePart2(input []string) int {
+	grid := util.LinesToMatrix(input)
+	beams := []Beam{}
+
+	rows := len(grid)
+	cols := len(grid[0])
+
+	for row := 0; row < rows; row++ {
+		beams = append(beams, Beam{Right, Position{0, row}})
+		beams = append(beams, Beam{Left, Position{cols - 1, row}})
+	}
+	for col := 0; col < cols; col++ {
+		beams = append(beams, Beam{Down, Position{col, 0}})
+		beams = append(beams, Beam{Up, Position{col, rows - 1}})
+	}
+	//fmt.Println(beams)
+
+	energized := []int{}
+
+	for _, beam := range beams {
+		energized = append(energized, energize(beam, grid))
+	}
+
+	return slices.Max(energized)
+}
+
+func energize(beam Beam, grid [][]rune) int {
+	energized := mapset.NewSet[Position]()
+	// save seen beams to prevent infinite loops
+	seen := mapset.NewSet[Beam]()
+
+	run(beam, grid, energized, seen)
 
 	//printEnergized(grid, energized)
 
 	return energized.Cardinality()
 }
 
-func SolvePart2(input []string) int {
-	return 0
-}
-
-func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
+func run(beam Beam, grid [][]rune, energized mapset.Set[Position], seen mapset.Set[Beam]) {
 	seen.Add(beam)
 	//fmt.Println("starting new run", beam)
 	//defer fmt.Println("ending run", beam)
@@ -75,7 +104,7 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
 			} else if grid[beam.pos.y][beam.pos.x] == '|' {
 				beam.direction = Down
 				newBeam := NewBeam(Up, Position{beam.pos.x, beam.pos.y - 1})
-				run(newBeam, grid, energized)
+				run(newBeam, grid, energized, seen)
 			}
 		} else if beam.direction == Left {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -85,7 +114,7 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
 			} else if grid[beam.pos.y][beam.pos.x] == '|' {
 				beam.direction = Down
 				newBeam := NewBeam(Up, Position{beam.pos.x, beam.pos.y - 1})
-				run(newBeam, grid, energized)
+				run(newBeam, grid, energized, seen)
 			}
 		} else if beam.direction == Up {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -95,7 +124,7 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
 			} else if grid[beam.pos.y][beam.pos.x] == '-' {
 				beam.direction = Left
 				newBeam := NewBeam(Right, Position{beam.pos.x + 1, beam.pos.y})
-				run(newBeam, grid, energized)
+				run(newBeam, grid, energized, seen)
 			}
 		} else if beam.direction == Down {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -105,7 +134,7 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
 			} else if grid[beam.pos.y][beam.pos.x] == '-' {
 				beam.direction = Left
 				newBeam := NewBeam(Right, Position{beam.pos.x + 1, beam.pos.y})
-				run(newBeam, grid, energized)
+				run(newBeam, grid, energized, seen)
 			}
 		}
 		if beam.direction == Up {
