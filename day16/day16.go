@@ -28,19 +28,14 @@ const (
 	Right
 )
 
-// save new beams that have been started
-// to prevent infinite loops
-var startedBeams = mapset.NewSet[Beam]()
-
-var energized = mapset.NewSet[Position]()
+// save seen beams to prevent infinite loops
+var seen = mapset.NewSet[Beam]()
 
 func Solve() {
-	//input := util.ReadLines("day16/input.txt")
+	input := util.ReadLines("day16/input.txt")
 
-	//part1 := SolvePart1(input)
-	//fmt.Println("Day 16 - Part 1:", part1)
-
-	fmt.Println("Day 16 - Part 1: Skipping, runs with test data, but runs indefenitely with puzzle input")
+	part1 := SolvePart1(input)
+	fmt.Println("Day 16 - Part 1:", part1)
 }
 
 func SolvePart1(input []string) int {
@@ -48,18 +43,21 @@ func SolvePart1(input []string) int {
 
 	beam := NewBeam(Right, Position{0, 0})
 
-	run(beam, grid)
+	energized := mapset.NewSet[Position]()
 
-	//printEnergized(grid)
+	run(beam, grid, energized)
+
+	//printEnergized(grid, energized)
 
 	return energized.Cardinality()
 }
 
-func run(beam Beam, grid [][]rune) {
-	if startedBeams.Contains(beam) {
-		return
-	}
-	startedBeams.Add(beam)
+func SolvePart2(input []string) int {
+	return 0
+}
+
+func run(beam Beam, grid [][]rune, energized mapset.Set[Position]) {
+	seen.Add(beam)
 	//fmt.Println("starting new run", beam)
 	//defer fmt.Println("ending run", beam)
 
@@ -77,7 +75,7 @@ func run(beam Beam, grid [][]rune) {
 			} else if grid[beam.pos.y][beam.pos.x] == '|' {
 				beam.direction = Down
 				newBeam := NewBeam(Up, Position{beam.pos.x, beam.pos.y - 1})
-				run(newBeam, grid)
+				run(newBeam, grid, energized)
 			}
 		} else if beam.direction == Left {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -87,7 +85,7 @@ func run(beam Beam, grid [][]rune) {
 			} else if grid[beam.pos.y][beam.pos.x] == '|' {
 				beam.direction = Down
 				newBeam := NewBeam(Up, Position{beam.pos.x, beam.pos.y - 1})
-				run(newBeam, grid)
+				run(newBeam, grid, energized)
 			}
 		} else if beam.direction == Up {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -97,7 +95,7 @@ func run(beam Beam, grid [][]rune) {
 			} else if grid[beam.pos.y][beam.pos.x] == '-' {
 				beam.direction = Left
 				newBeam := NewBeam(Right, Position{beam.pos.x + 1, beam.pos.y})
-				run(newBeam, grid)
+				run(newBeam, grid, energized)
 			}
 		} else if beam.direction == Down {
 			if grid[beam.pos.y][beam.pos.x] == '/' {
@@ -107,7 +105,7 @@ func run(beam Beam, grid [][]rune) {
 			} else if grid[beam.pos.y][beam.pos.x] == '-' {
 				beam.direction = Left
 				newBeam := NewBeam(Right, Position{beam.pos.x + 1, beam.pos.y})
-				run(newBeam, grid)
+				run(newBeam, grid, energized)
 			}
 		}
 		if beam.direction == Up {
@@ -119,6 +117,10 @@ func run(beam Beam, grid [][]rune) {
 		} else if beam.direction == Right {
 			moveRight(&beam)
 		}
+		if seen.Contains(beam) {
+			break
+		}
+		seen.Add(beam)
 	}
 }
 
@@ -142,7 +144,7 @@ func moveLeft(beam *Beam) {
 	beam.pos = Position{beam.pos.x - 1, beam.pos.y}
 }
 
-func printEnergized(grid [][]rune) {
+func printEnergized(grid [][]rune, energized mapset.Set[Position]) {
 	for row := 0; row < len(grid); row++ {
 		for col := 0; col < len(grid[row]); col++ {
 			if energized.Contains(Position{col, row}) {
