@@ -18,10 +18,10 @@ var input2 = []string{
 
 func Solve() {
 	part1 := SolvePart1(input1)
-	fmt.Println("Day 06 - part1:", part1)
+	fmt.Println("Day 06 - Part 1:", part1)
 
 	part2 := SolvePart1(input2)
-	fmt.Println("Day 06 - part2:", part2)
+	fmt.Println("Day 06 - Part 2:", part2)
 }
 
 func SolvePart1(input []string) int {
