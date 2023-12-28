@@ -33,11 +33,11 @@ func TestSolvePart2(t *testing.T) {
 	assert.Equal(t, 51, part1)
 }
 
-func TestMoveRight(t *testing.T) {
+func TestMove(t *testing.T) {
 	beam := NewBeam(Right, Position{1, 1})
 	exp := Position{2, 1}
 
-	moveRight(&beam)
+	beam.move()
 
 	assert.Equal(t, exp, beam.pos)
 }

@@ -22,6 +22,18 @@ func NewBeam(direction int, position Position) Beam {
 	return Beam{direction, position}
 }
 
+func (self *Beam) move() {
+	if self.direction == Up {
+		self.pos.y--
+	} else if self.direction == Down {
+		self.pos.y++
+	} else if self.direction == Left {
+		self.pos.x--
+	} else if self.direction == Right {
+		self.pos.x++
+	}
+}
+
 const (
 	Up = iota
 	Down
@@ -75,7 +87,7 @@ func SolvePart2(input []string) int {
 
 func energize(beam Beam, grid [][]rune) int {
 	energized := mapset.NewSet[Position]()
-	// save seen beams to prevent infinite loops
+	// save seen beams to prevent endless loops
 	seen := mapset.NewSet[Beam]()
 
 	run(beam, grid, energized, seen)
@@ -137,15 +149,7 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position], seen mapset.S
 				run(newBeam, grid, energized, seen)
 			}
 		}
-		if beam.direction == Up {
-			moveUp(&beam)
-		} else if beam.direction == Down {
-			moveDown(&beam)
-		} else if beam.direction == Left {
-			moveLeft(&beam)
-		} else if beam.direction == Right {
-			moveRight(&beam)
-		}
+		beam.move()
 		if seen.Contains(beam) {
 			break
 		}
@@ -155,22 +159,6 @@ func run(beam Beam, grid [][]rune, energized mapset.Set[Position], seen mapset.S
 
 func outsideBounds(beam Beam, grid [][]rune) bool {
 	return beam.pos.y >= len(grid) || beam.pos.y < 0 || beam.pos.x < 0 || beam.pos.x >= len(grid[0])
-}
-
-func moveUp(beam *Beam) {
-	beam.pos = Position{beam.pos.x, beam.pos.y - 1}
-}
-
-func moveDown(beam *Beam) {
-	beam.pos = Position{beam.pos.x, beam.pos.y + 1}
-}
-
-func moveRight(beam *Beam) {
-	beam.pos = Position{beam.pos.x + 1, beam.pos.y}
-}
-
-func moveLeft(beam *Beam) {
-	beam.pos = Position{beam.pos.x - 1, beam.pos.y}
 }
 
 func printEnergized(grid [][]rune, energized mapset.Set[Position]) {
