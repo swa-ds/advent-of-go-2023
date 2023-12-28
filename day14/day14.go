@@ -32,7 +32,7 @@ func SolvePart2(input []string) int {
 	for i := 1; true; i++ {
 		//fmt.Println("Cycle", i)
 		platform = spinCycle(platform)
-		//printMatrix(platform)
+		//util.PrintMatrix(platform)
 		idxEnc := indexOf(encountered, platform)
 		if idxEnc >= 0 {
 			//fmt.Printf("Detected loop after %d spin cycles, "+
@@ -146,13 +146,6 @@ func rotateMatrix(original [][]rune) [][]rune {
 	}
 
 	return rotated
-}
-
-func printMatrix(afterCycle [][]rune) {
-	for _, row := range afterCycle {
-		fmt.Println(string(row))
-	}
-	fmt.Println("")
 }
 
 func equal(a [][]rune, b [][]rune) bool {

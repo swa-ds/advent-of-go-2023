@@ -2,6 +2,7 @@ package aocutils
 
 import (
 	"bufio"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -93,6 +94,13 @@ func SplitAndTrim(s string, delim string) []string {
 		parts[i] = strings.TrimSpace(parts[i])
 	}
 	return parts
+}
+
+func PrintMatrix(matrix [][]rune) {
+	for _, row := range matrix {
+		fmt.Println(string(row))
+	}
+	fmt.Println("")
 }
 
 // Deprecated: remove variables if they're really not needed.
