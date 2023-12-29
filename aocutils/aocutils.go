@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -86,6 +87,10 @@ func Max(a int, b int) int {
 		return a
 	}
 	return b
+}
+
+func Abs(a int) int {
+	return int(math.Abs(float64(a)))
 }
 
 func SplitAndTrim(s string, delim string) []string {
