@@ -3,6 +3,7 @@ package day18
 import (
 	"fmt"
 	"regexp"
+	"strconv"
 	"swads/aoc2023/aocutils"
 )
 
@@ -12,9 +13,8 @@ type Position struct {
 }
 
 type Instruction struct {
-	dir     string
-	dist    int
-	hexcode string
+	dir  string
+	dist int
 }
 
 func Solve() {
@@ -22,6 +22,9 @@ func Solve() {
 
 	part1 := SolvePart1(input)
 	fmt.Println("Day 18 - Part 1:", part1)
+
+	part2 := SolvePart2(input)
+	fmt.Println("Day 18 - Part 2:", part2)
 }
 
 // taken over solution from https://github.com/bsadia/aoc_goLang/blob/53ed198e644324d559a366a17c712e1b8c6bb4fe/day18/main.go
@@ -34,12 +37,44 @@ func SolvePart1(input []string) int {
 		in := Instruction{
 			matches[1],
 			aocutils.StrToInt(matches[2]),
-			matches[3],
 		}
 		instructions = append(instructions, in)
 		//fmt.Println(in)
 	}
+	return calculateArea(instructions)
+}
 
+func SolvePart2(input []string) int {
+	re := regexp.MustCompile(`([UDLR]) (\d+) \(#([a-z0-9]{6})\)`)
+	instructions := []Instruction{}
+
+	for _, line := range input {
+		matches := re.FindStringSubmatch(line)
+		hexcode := matches[3]
+		instructions = append(instructions, hexToInstruction(hexcode))
+	}
+
+	return calculateArea(instructions)
+}
+
+func hexToInstruction(hexcode string) Instruction {
+	hexDigit := hexcode[:5]
+	direction := hexcode[5:]
+	if direction == "0" {
+		direction = "R"
+	} else if direction == "1" {
+		direction = "D"
+	} else if direction == "2" {
+		direction = "L"
+	} else if direction == "3" {
+		direction = "U"
+	}
+	distance, _ := strconv.ParseInt(hexDigit, 16, 64)
+	//fmt.Println("digit:", hexDigit, "direction:", direction)
+	return Instruction{direction, int(distance)}
+}
+
+func calculateArea(instructions []Instruction) int {
 	pos := Position{0, 0}
 	area := 0
 

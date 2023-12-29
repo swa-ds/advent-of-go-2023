@@ -23,8 +23,30 @@ var input = []string{
 	"U 2 (#7a21e3)",
 }
 
-func TestSolve1(t *testing.T) {
+func TestSolvePart1(t *testing.T) {
 	part1 := SolvePart1(input)
 
 	assert.Equal(t, 62, part1)
+}
+
+func TestSolvePart2(t *testing.T) {
+	part2 := SolvePart2(input)
+
+	assert.Equal(t, 952408144115, part2)
+}
+
+func TestHexToInstruction(t *testing.T) {
+	hexcode := "70c710"
+	exp := Instruction{"R", 461937}
+
+	inst := hexToInstruction(hexcode)
+
+	assert.Equal(t, exp, inst)
+
+	hexcode = "8ceee2"
+	exp = Instruction{"L", 577262}
+
+	inst = hexToInstruction(hexcode)
+
+	assert.Equal(t, exp, inst)
 }
